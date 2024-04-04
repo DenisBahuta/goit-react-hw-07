@@ -6,11 +6,12 @@ import { useDispatch } from "react-redux";
 
 import { deleteContact } from "../../redux/contactsSlice";
 
-const Contact = ({ id, name, number }) => {
+const Contact = ({ name, number }) => {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(deleteContact(id)); // Отправляем экшен deleteContact с идентификатором контакта
+    // Вызываем экшен deleteContact без передачи id
+    dispatch(deleteContact());
   };
 
   return (
@@ -37,9 +38,7 @@ const Contact = ({ id, name, number }) => {
 };
 
 // Описание типов пропсов компонента Contact
-
 Contact.propTypes = {
-  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,
 };
