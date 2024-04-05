@@ -6,12 +6,11 @@ import { useDispatch } from "react-redux";
 
 import { deleteContact } from "../../redux/contactsOps";
 
-const Contact = ({ name, number }) => {
+const Contact = ({ id, name, number }) => {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    // Вызываем экшен deleteContact без передачи id
-    dispatch(deleteContact());
+    dispatch(deleteContact(id));
   };
 
   return (
