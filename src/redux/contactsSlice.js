@@ -1,6 +1,6 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { fetchContacts } from "./contactsOps";
-import { selectContacts, selectNameFilter } from "./selectors";
+import { selectNameFilter } from "./filtersSlice";
 
 // початковий стан Redux
 export const INITIAL_STATE = {
@@ -15,6 +15,7 @@ const contactsSlice = createSlice({
   // Початковий стан редюсера слайсу
   initialState: INITIAL_STATE,
 
+  // Додаємо обробку зовнішніх екшенів
   extraReducers: (builder) => {
     builder
       .addCase(fetchContacts.pending, (state) => {
@@ -22,18 +23,24 @@ const contactsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchContacts.fulfilled, (state, action) => {
-        state.items = action.payload;
         state.loading = false;
+        state.items = action.payload;
       })
       .addCase(fetchContacts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // Об'єкт редюсерів
+      .addCase(addContact.fulfilled, (state, action) => {
+        state.items.push(action.payload);
+      })
+      .addCase(deleteContact.fulfilled, (state, action) => {
+        state.items = state.items.filter(
+          (contact) => contact.id !== action.payload
+        );
       });
   },
 });
-
-export const { addContact, deleteContact } = contactsSlice.actions;
-export const contactsReducer = contactsSlice.reducer;
 
 // фильтрация коллекции
 export const selectFilteredContacts = createSelector(
@@ -46,3 +53,9 @@ export const selectFilteredContacts = createSelector(
     );
   }
 );
+
+export const { addContact, deleteContact } = contactsSlice.actions;
+export const contactsReducer = contactsSlice.reducer;
+export const selectContacts = (state) => state.contacts.items;
+export const selectLoading = (state) => state.contacts.loading;
+export const selectError = (state) => state.contacts.error;

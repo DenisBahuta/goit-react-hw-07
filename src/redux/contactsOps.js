@@ -19,12 +19,12 @@ export const fetchContacts = createAsyncThunk(
 // добавление нового контакта
 export const addContact = createAsyncThunk(
   "contacts/addContact",
-  async (newContact) => {
+  async (newContact, thunkAPI) => {
     try {
       const { data } = await axios.post("", newContact);
       return data;
     } catch (error) {
-      return error.message;
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -32,12 +32,12 @@ export const addContact = createAsyncThunk(
 // удаление контакта по ID
 export const deleteContact = createAsyncThunk(
   "contacts/deleteContact",
-  async (contactId) => {
+  async (contactId, thunkAPI) => {
     try {
       const { data } = await axios.delete(`/${contactId}`);
       return data;
     } catch (error) {
-      return error.message;
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
