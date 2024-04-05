@@ -15,22 +15,6 @@ const contactsSlice = createSlice({
   // Початковий стан редюсера слайсу
   initialState: INITIAL_STATE,
 
-  //Об'єкт редюсерів нужно удалить? Без него не определяются функции addContact и deleteContact в файлах Contact и ContactForm?🤔--------------------------------------------------------------//
-
-  // reducers: {
-  //   addContact(state, action) {
-  //     state.items.push(action.payload);
-  //   },
-  //   deleteContact(state, action) {
-  //     state.items = state.items.filter(
-  //       (contact) => contact.id !== action.payload
-  //     );
-  //   },
-  // },
-
-  //--------------------------------------------------------------------------------------------//
-
-  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchContacts.pending, (state) => {
