@@ -17,28 +17,29 @@ const contactsSlice = createSlice({
 
   //Об'єкт редюсерів нужно удалить? Без него не определяются функции addContact и deleteContact в файлах Contact и ContactForm?🤔--------------------------------------------------------------//
 
-  reducers: {
-    addContact(state, action) {
-      state.items.push(action.payload);
-    },
-    deleteContact(state, action) {
-      state.items = state.items.filter(
-        (contact) => contact.id !== action.payload
-      );
-    },
-  },
+  // reducers: {
+  //   addContact(state, action) {
+  //     state.items.push(action.payload);
+  //   },
+  //   deleteContact(state, action) {
+  //     state.items = state.items.filter(
+  //       (contact) => contact.id !== action.payload
+  //     );
+  //   },
+  // },
 
   //--------------------------------------------------------------------------------------------//
 
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchContacts.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(fetchContacts.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = null;
         state.items = action.payload;
+        state.loading = false;
       })
       .addCase(fetchContacts.rejected, (state, action) => {
         state.loading = false;
